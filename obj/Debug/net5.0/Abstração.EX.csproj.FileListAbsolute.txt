@@ -1,0 +1,5 @@
+C:\Users\Leandro\Desktop\Abstração.EX\obj\Debug\net5.0\Abstração.EX.csprojAssemblyReference.cache
+C:\Users\Leandro\Desktop\Abstração.EX\obj\Debug\net5.0\Abstração.EX.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Leandro\Desktop\Abstração.EX\obj\Debug\net5.0\Abstração.EX.AssemblyInfoInputs.cache
+C:\Users\Leandro\Desktop\Abstração.EX\obj\Debug\net5.0\Abstração.EX.AssemblyInfo.cs
+C:\Users\Leandro\Desktop\Abstração.EX\obj\Debug\net5.0\Abstração.EX.csproj.CoreCompileInputs.cache
