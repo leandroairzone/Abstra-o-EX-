@@ -6,52 +6,90 @@ namespace Abstração.EX
     {
         static void Main(string[] args)
         {
-           Credito cred = new Credito();
+          string ops, rep, opsCD, pagarOuCancelar = "";
+            Boleto boleto = new Boleto();
+            Credito credito = new Credito();
+            Debito debito = new Debito();
 
-            Console.WriteLine("Digite o valor do produto: ");
-            float ValordaCompra = float.Parse(Console.ReadLine());
-
-            Console.WriteLine();
-
-            Console.WriteLine("Selecione a forma de pagamento: ");
-            Console.WriteLine("[1] - BOLETO |12% de desconto|");
-            Console.WriteLine("[2] - CARTÃO");
-            int opcao = int.Parse(Console.ReadLine());
-
-            switch(opcao){
-
-                //Boleto
-                case 1:
-                    Boleto boleto = new Boleto();
-                    boleto.Valor = ValordaCompra;
-                    boleto.Registrar(boleto.Valor, boleto.DatadoPagamento, boleto.CodigodeBarras);
-    
-                break;
-
-                case 2:
-                    Console.WriteLine("Selecione uma opção: ");
-                    Console.WriteLine("[1] Crédito");
-                    Console.WriteLine("[2] Débito");
-                    int tipoCartao = int.Parse(Console.ReadLine());
-
-                    switch(tipoCartao){
-                        case 1: 
-                            Credito credito = new Credito();
+            Console.Write($"----------------\nPagamento\n----------------\n");
+            do
+            {
+                Console.Write("Digite a forma de pagamento\n[B] Boleto (Com 12% de desconto!)\n[C] Cartão\n[S] Sair\nOpção: ");
+                ops = Console.ReadLine();
+                ops = ops.ToUpper();
+                CorrigindoOpcao(ops, "B", "C", "S");
+                if (ops == "B")
+                {
+                    do
+                    {
+                        Console.Write($"Digite o valor a ser pago: R$ ");
+                        boleto.Valor = float.Parse(Console.ReadLine());
+                        Console.Write($"Digite quantos dias faltam para o vencimento do boleto: ");
+                        int dias = int.Parse(Console.ReadLine());
+                        while (dias < 0)
+                        {
+                            Console.Write($"Quantidade de dias inválido ou o boleto já venceu.\nDigite novamente: ");
+                            dias = int.Parse(Console.ReadLine());
+                        }
+                        Console.WriteLine("--------------------------------");
+                        boleto.Registar(boleto.Valor, boleto.Data, boleto.CodigoDeBarras, dias);
+                        Console.Write("--------------------------------\nDeseja gerar um outro boleto?\n[S] Sim\n[N] Não\nOpção: ");
+                        rep = Console.ReadLine();
+                        rep = rep.ToUpper();
+                        CorrigindoOpcaoSN(rep, "S", "N");
+                    }while(rep == "S");
+                }
+                else if(ops == "C")
+                {
+                    Console.WriteLine($"Crédito ou débito: \n[C] Crédito\n[D] Débito\n opção: ");
+                    opsCD = Console.ReadLine();
+                    opsCD = opsCD.ToUpper();
+                    CorrigindoOpcaoSN(opsCD, "C", "D");
+                    switch (opsCD)
+                    {
+                        case "C":
+                            Console.Write($"Digite o valor a ser pago: R$ ");
+                            credito.Valor = float.Parse(Console.ReadLine());
                             credito.SalvarCartao();
-                            credito.Pagar(ValordaCompra);
-                            Console.WriteLine("APROVADO!");
-                        break;
-
-                        case 2:
-                            Debito debito = new Debito();
-                            debito.SalvarCartao();
-                            debito.Pagar(ValordaCompra);
-                        break;
+                            Console.Write($"Parcelas:\n1x sem juros\n2x com 5% de juros\n3x com 5% de juros\n4x com 5% de juros\n5x com 5% de juros\n6x com 5% de juros\n7x com 8% de juros\n8x com 8% de juros\n9x com 8% de juros\n10x com 8% de juros\n11x com 8% de juros\n12x com 8% de juros\nQuantas vezes você quer parcelar?\nParcelar em: ");
+                            int parcelando = int.Parse(Console.ReadLine());
+                            credito.Pagar(credito.Valor, parcelando, pagarOuCancelar);
+                            Console.WriteLine(credito.Limite);
+                            
+                            break;
+                        default:
+                            break;
                     }
                     
-                break;
-            } 
-            
+                }
+            }while(ops != "S");
+
+
+
+
+            //Funções
+            void CorrigindoOpcao(string opcao, string a, string b, string c){
+                while (opcao != a && ops != b && ops != c)
+                {
+                    Console.Write($"Opção inválida.\nDigite a opção novamente: ");
+                    opcao = Console.ReadLine();
+                    opcao = ops.ToUpper();
+                }
+            }
+            void CorrigindoOpcaoSN(string opcao, string a, string b){
+                while (opcao != a && opcao != b)
+                {
+                    Console.Write($"Opção inválida.\nDigite a opção novamente: ");
+                    opcao = Console.ReadLine();
+                    opcao = opcao.ToUpper();
+                } 
+            }
+            void MostrarCartoes(string[] a, string[] b, int contador){
+                for (var i = 0; i < 3; i++)
+                {
+                    Console.WriteLine($"Cartão {i + 1}\nNome do titular: {a[1]}\nBandeira: {b[i]}");
+                }
+            }
         }
     }
 }
